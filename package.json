@@ -12,6 +12,7 @@
     "axios": "^0.20.0",
     "dotenv": "^8.2.0",
     "mysql2": "^2.1.0",
+    "needle": "^2.5.0",
     "sequelize": "^6.3.4",
     "telegraf": "^3.38.0",
     "telegraf-i18n": "^6.6.0",

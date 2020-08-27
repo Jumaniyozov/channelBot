@@ -1,7 +1,7 @@
 const Scene = require('telegraf/scenes/base');
 const {Telegraf} = require('telegraf');
-const {Extra} = Telegraf;
 const User = require('../models/User');
+
 
 module.exports = (bot) => {
     const registrationScene = new Scene('registration');
@@ -28,6 +28,10 @@ module.exports = (bot) => {
                 user_id: ctx.from.id
             }
         })
+
+        if(user) {
+            ctx.session.user_status = user.dataValues.status;
+        }
 
         if (!user) {
             user = await User.create({

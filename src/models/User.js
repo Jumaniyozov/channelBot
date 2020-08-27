@@ -26,6 +26,9 @@ const User = MySQL.define('user', {
     phone: {
         type: Sequelize.STRING,
     },
+    status: {
+        type: Sequelize.INTEGER,
+    }
 }, {
     timestamps: true
 });

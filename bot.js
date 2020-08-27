@@ -32,11 +32,12 @@ const mainScene = require('./src/scenes/main')(bot);
 const mainRequestScene = require('./src/scenes/request');
 const policyScene = require('./src/scenes/policy')(bot);
 const aboutScene = require('./src/scenes/about')();
+const priceScene = require('./src/scenes/price')(bot);
 const requestScene = mainRequestScene.requestScene();
 const createRequestScene = mainRequestScene.createRequestScene(bot);
 
 // Stage
-const stage = new Stage([languageScene, registrationScene, mainScene, aboutScene, requestScene, createRequestScene, policyScene]);
+const stage = new Stage([languageScene, registrationScene, mainScene, aboutScene, requestScene, priceScene, createRequestScene, policyScene]);
 
 // middlewares
 bot.use(session.middleware())
