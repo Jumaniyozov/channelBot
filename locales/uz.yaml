@@ -1,0 +1,27 @@
+greeting: <b>Salom ${uppercase(from.first_name)}!</b>
+menuPolicy:  Yuklash talablari
+menuRequest: Sorovnoma qoldirish
+menuAbout: Biz haqimizda
+mainMenuBack: Tilni tanlashga qaytish
+menuBack: Ortga
+policyMenuReq: Monopoliyaga qarshi kurashish qo'mitasi talablari
+chanelSample: Post namunasi
+chanelReq: Talablar
+chanelPolicy: Iltimos yuklash shartlari bilan tanishib chiqing
+chanelLink: Manzil
+antimonoReq: Iltimos qo'mita talablari bilan tanishib chiqing
+reqCreateComp: Iltimos korxona nomini kiriting
+reqCreateCon: Iltimos aloqa ma'lumotlarini kiriting
+reqCreateComType: Iltimos korxona turini kiriting
+reqCreateDate: Iltimos yuklash sanalarini kiriting
+reqCreateProdType: Iltimos maxsulot turini kiriting
+compName:  Korxona nomi
+compCont: Korxona ma'lumotlari
+compCompType:  Korxona turi
+compPubDate:  Yuklash sanalari
+compProdType:  Maxsulot turi
+emptyPost:  Hozircha ma'lumotlar yo'q
+reqStatus: So'rovnomangiz ko'rilish holatida
+regMessage: Iltimos ro'yxatdan o'ting
+mainMenu: Asosiy lavha
+requestCompleteMsg: Sizning so'rovnomangiz qabul qilindi. Yaqin orada mutaxassislarimiz siz bilan bo'glanadi

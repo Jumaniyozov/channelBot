@@ -1,0 +1,27 @@
+greeting: <b>Привет ${uppercase(from.first_name)}!</b>
+menuPolicy:  Условия размещения
+menuRequest: Оставить заявку
+menuAbout: О нас
+mainMenuBack: Назад к выбору языка
+menuBack: Назад
+policyMenuReq: Требования антимонопольного коммитета
+chanelSample: Примеры постов
+chanelReq: Условия
+chanelPolicy: Пожалуйста ознакомтесь с условиями размещения
+chanelLink: Ссылка
+antimonoReq: Пожалуйста ознакомтесь с требованиями коммитета
+reqCreateComp: Пожалуйста введите название компании
+reqCreateCon: Пожалуйста введите контактные данные
+reqCreateComType: Пожалуйста введите тип компании
+reqCreateDate: Пожалуйста введите сроки размещения
+reqCreateProdType: Пожалуйста введите тип продукта
+compName:  Имя компании
+compCont:  Данные компании
+compCompType:  Тип компании
+compPubDate:  Сроки размещения
+compProdType:  Тип продукта
+emptyPost:  Пока что постов нет
+reqStatus: Ваша заявка принята на усмотрение
+regMessage: Пожалуйста пройдите регистрацию
+mainMenu: Главное меню
+requestCompleteMsg:  Ваша заявка успешно отправалена. В ближайшее время с вами свяжутся наши специалисты
