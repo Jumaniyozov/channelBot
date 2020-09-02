@@ -5,17 +5,19 @@ const Markup = require('telegraf/markup');
 
 const Channel = require('../models/Channel');
 const SamplePost = require('../models/SamplePost');
+const Country = require('../models/Country');
 
 module.exports = (bot) => {
 
     const policyScene = new Scene('policy');
 
     policyScene.enter(async (ctx) => {
-        ctx.deleteMessage()
+        ctx.deleteMessage().catch(err => {
+        });
         ctx.session.mesage_filter.forEach(msg => {
             ctx.deleteMessage(msg)
         })
-        const results = await Channel.findAll();
+        const results = await Channel.findAll({where: {country: ctx.session.chosenCountry[0].id}});
         ctx.session.channels = results.map(channel => {
             return [{text: channel.dataValues.name, callback_data: `c:${channel.id}:${channel.dataValues.name}`}]
         })
@@ -33,14 +35,16 @@ module.exports = (bot) => {
     })
 
     policyScene.action('back', ctx => {
-        ctx.deleteMessage()
+        ctx.deleteMessage().catch(err => {
+        });
         ctx.scene.enter('mainMenu', {
             start: ctx.i18n.t('mainMenu')
         })
     })
 
     policyScene.action('backChannelMenu', ctx => {
-        ctx.deleteMessage()
+        ctx.deleteMessage().catch(err => {
+        });
         ctx.scene.enter('policy')
     })
 
@@ -108,7 +112,9 @@ module.exports = (bot) => {
 
 
     policyScene.action('Next', async (ctx) => {
-        ctx.deleteMessage();
+        ctx.deleteMessage().catch(err => {
+        });
+        ;
         ctx.session.currentCont = ctx.session.currentCont + 1;
 
         let markup;
@@ -169,7 +175,8 @@ module.exports = (bot) => {
     })
 
     policyScene.action('policies', ctx => {
-        ctx.deleteMessage()
+        ctx.deleteMessage().catch(err => {
+        });
         const message = `
 <b>${ctx.i18n.t('chanelPolicy')}</b>
 <a href="https://telegra.ph/Usloviya-razmeshcheniya-08-24">${ctx.i18n.t('chanelLink')}</a>
@@ -197,9 +204,9 @@ module.exports = (bot) => {
 
             if (channel) {
                 if (channel.is_channel) {
-                    console.log(ctx.session.channelId, channelName);
                     ctx.answerCbQuery()
-                    ctx.deleteMessage()
+                    ctx.deleteMessage().catch(err => {
+                    });
                     ctx.reply(ctx.session.channelDesc, Extra.HTML().markup(markup => {
                         return markup.inlineKeyboard([
                             [Markup.callbackButton(ctx.i18n.t('chanelSample'), `p:${channel.id}:${channelName}`)],
@@ -209,7 +216,8 @@ module.exports = (bot) => {
                     }))
                 } else {
                     ctx.answerCbQuery()
-                    ctx.deleteMessage()
+                    ctx.deleteMessage().catch(err => {
+                    });
                     ctx.reply(channel[`desc_${ctx.session.language}`], Extra.HTML().markup(markup => {
                         return markup.inlineKeyboard([
                             [Markup.callbackButton(`◀️ ${ctx.i18n.t('menuBack')}`, 'backChannelMenu')]
@@ -218,7 +226,6 @@ module.exports = (bot) => {
                 }
             }
         } else if (type === 'p') {
-            console.log(ctx.session.channelId, channelName);
 
             let posts = await SamplePost.findAll({
                 where: {
@@ -226,6 +233,7 @@ module.exports = (bot) => {
                 }
             })
 
+            console.log(posts);
 
             if (posts.length !== 0) {
                 ctx.session.contents = posts.map((content, index) => {
@@ -233,6 +241,7 @@ module.exports = (bot) => {
                 })
                 ctx.session.currentCont = 0;
 
+                let replyMarkup;
 
                 const markup_1 = {
                     'inline_keyboard': [
@@ -256,25 +265,62 @@ module.exports = (bot) => {
                     ]
                 }
 
+                const markup_3 = {
+                    'inline_keyboard': [
+                        [{
+                            text: `◀️ ${ctx.i18n.t('menuBack')}`,
+                            callback_data: `b:${ctx.session.channelId}:${channelName}`
+                        }]
+                    ]
+                }
+
+                if (posts.length === 1) {
+                    replyMarkup = markup_3
+                } else if (ctx.session.currentCont === 0) {
+                    replyMarkup = markup_1
+                } else {
+                    replyMarkup = markup_2
+                }
+
+
                 const data = ctx.session.contents[ctx.session.currentCont].data;
                 ctx.answerCbQuery()
-                ctx.deleteMessage()
-                const msg = bot.telegram.sendVideo(ctx.chat.id, data.media, {
-                    width: 480,
-                    height: 256,
-                    caption: `${data.header}\n` +
-                        '\n' +
-                        `${data.caption}` +
-                        '\n' +
-                        `${data.contacts}`,
-                    reply_markup: ctx.session.currentCont === 0 ? markup_1 : markup_2
-                })
+                ctx.deleteMessage().catch(err => {
+                });
 
-                ctx.session.mesage_filter.push((await msg).message_id);
+                if (data.mediaType === 'video') {
+                    const msg = bot.telegram.sendVideo(ctx.chat.id, data.media, {
+                        width: 480,
+                        height: 256,
+                        caption: `${data.header}\n` +
+                            '\n' +
+                            `${data.caption}` +
+                            '\n' +
+                            `${data.contacts}`,
+                        reply_markup: replyMarkup
+                    })
+                    ctx.session.mesage_filter.push((await msg).message_id);
+
+                } else if (data.mediaType === 'photo') {
+                    const msg = bot.telegram.sendPhoto(ctx.chat.id, data.media, {
+                        width: 480,
+                        height: 256,
+                        caption: `${data.header}\n` +
+                            '\n' +
+                            `${data.caption}` +
+                            '\n' +
+                            `${data.contacts}`,
+                        reply_markup: replyMarkup
+                    })
+
+                    ctx.session.mesage_filter.push((await msg).message_id);
+                }
+
 
             } else {
                 ctx.answerCbQuery()
-                ctx.deleteMessage()
+                ctx.deleteMessage().catch(err => {
+                });
                 ctx.reply(`${ctx.i18n.t('emptyPost')}`, Extra.HTML().markup(markup => {
                     return markup.inlineKeyboard([
                         [Markup.callbackButton(`◀️ ${ctx.i18n.t('menuBack')}`, `b:${ctx.session.channelId}:${channelName}`)]
@@ -283,7 +329,8 @@ module.exports = (bot) => {
             }
         } else if (type === 'b') {
             ctx.answerCbQuery()
-            ctx.deleteMessage()
+            ctx.deleteMessage().catch(err => {
+            });
             ctx.reply(ctx.session.channelDesc, Extra.HTML().markup(markup => {
                 return markup.inlineKeyboard([
                     [Markup.callbackButton(ctx.i18n.t('chanelSample'), `p:${ctx.session.channelId}:${channelName}`)],

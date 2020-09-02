@@ -3,14 +3,18 @@ const {Telegraf} = require('telegraf');
 const {Extra} = Telegraf;
 const Markup = require('telegraf/markup');
 const fs = require('fs');
+const path = require('path');
 
 module.exports = (bot) => {
     const priceScene = new Scene('price');
 
+
     priceScene.enter(async ctx => {
 
+        const filePath = path.resolve(__dirname, '../documents/цены.xlsx', )
+
         bot.telegram.sendDocument(ctx.from.id, {
-            source: fs.readFileSync('C:\\Users\\Dell\\Desktop\\Projects\\Node\\testCase\\src\\documents\\цены.xlsx'),
+            source: fs.readFileSync(filePath),
             filename: 'цены.xlsx'
         }).catch(function(error){ console.log(error); })
 

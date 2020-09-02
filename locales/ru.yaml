@@ -2,6 +2,10 @@ greeting: <b>Привет ${uppercase(from.first_name)}!</b>
 menuPolicy:  Условия размещения
 menuRequest: Оставить заявку
 menuAbout: О нас
+menuCountry:  Изменить страну
+menuLanguage: Изменить язык
+menuPrice: Показать цены
+menuCountryChoose: Пожалуйста выберите страну
 mainMenuBack: Назад к выбору языка
 menuBack: Назад
 policyMenuReq: Требования антимонопольного коммитета
@@ -25,4 +29,3 @@ reqStatus: Ваша заявка принята на усмотрение
 regMessage: Пожалуйста пройдите регистрацию
 mainMenu: Главное меню
 requestCompleteMsg:  Ваша заявка успешно отправалена. В ближайшее время с вами свяжутся наши специалисты
-menuPrice: Показать цены

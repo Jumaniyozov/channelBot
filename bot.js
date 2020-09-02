@@ -27,23 +27,27 @@ const bot = new Telegraf(process.env.TGTOKEN)
 
 // Scenes
 const languageScene = require('./src/scenes/language')();
+const countryScene = require('./src/scenes/country')();
 const registrationScene = require('./src/scenes/registration')(bot);
 const mainScene = require('./src/scenes/main')(bot);
 const mainRequestScene = require('./src/scenes/request');
 const policyScene = require('./src/scenes/policy')(bot);
-const aboutScene = require('./src/scenes/about')();
+const aboutScene = require('./src/scenes/about')(bot);
 const priceScene = require('./src/scenes/price')(bot);
 const requestScene = mainRequestScene.requestScene();
 const createRequestScene = mainRequestScene.createRequestScene(bot);
 
 // Stage
-const stage = new Stage([languageScene, registrationScene, mainScene, aboutScene, requestScene, priceScene, createRequestScene, policyScene]);
+const stage = new Stage([countryScene, languageScene, registrationScene, mainScene, aboutScene, requestScene, priceScene, createRequestScene, policyScene]);
 
 // middlewares
 bot.use(session.middleware())
 bot.use(i18n.middleware())
 bot.use(stage.middleware());
 
+// bot.use(ctx => {
+//     console.log(ctx.message);
+// })
 
 bot.start(ctx => {
     if (ctx.session.mesage_filter) {
@@ -55,7 +59,14 @@ bot.start(ctx => {
     }
     ctx.session.mesage_filter = [];
 
-    ctx.scene.enter('language');
+    if (ctx.session.chosenCountry) {
+        return ctx.scene.enter('mainMenu', {
+            start: ctx.i18n.t('mainMenu')
+        })
+    } else {
+        return ctx.scene.enter('country');
+    }
+
 })
 
 

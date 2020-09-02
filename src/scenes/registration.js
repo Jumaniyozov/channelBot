@@ -8,28 +8,32 @@ module.exports = (bot) => {
 
     registrationScene.enter(async ctx => {
 
-        const msg = bot.telegram.sendMessage(ctx.chat.id, ctx.i18n.t('regMessage'), {
-            parse_mode: 'HTML',
-            reply_markup: {
-                keyboard: [
-                    [{text: `📲 ${ctx.i18n.t('regMessage')}`, request_contact: true}]
-                ],
-                resize_keyboard: true,
-                one_time_keyboard: true
-            }
-        })
-
+        if (ctx.session.registered) {
+            console.log('registered')
+            return ctx.scene.enter('mainMenu');
+        } else {
+            const msg = bot.telegram.sendMessage(ctx.chat.id, ctx.i18n.t('regMessage'), {
+                parse_mode: 'HTML',
+                reply_markup: {
+                    keyboard: [
+                        [{text: `📲 ${ctx.i18n.t('regMessage')}`, request_contact: true}]
+                    ],
+                    resize_keyboard: true,
+                    one_time_keyboard: true
+                }
+            })
+        }
     });
 
     registrationScene.on('contact', async (ctx) => {
-        ctx.deleteMessage();
+        // ctx.deleteMessage().catch(err => {});
         let user = await User.findOne({
             where: {
                 user_id: ctx.from.id
             }
         })
 
-        if(user) {
+        if (user) {
             ctx.session.user_status = user.dataValues.status;
         }
 
@@ -41,8 +45,11 @@ module.exports = (bot) => {
                 firstName: ctx.message.contact.first_name,
                 language: ctx.session.language,
                 phone: ctx.message.contact.phone_number,
+                status: 0
             })
         }
+
+        ctx.session.registered = user;
 
         ctx.scene.enter('mainMenu');
     })

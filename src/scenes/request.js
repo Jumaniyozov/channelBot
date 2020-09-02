@@ -38,7 +38,7 @@ module.exports.createRequestScene = (bot) => {
             return ctx.wizard.next()
         },
         async (ctx) => {
-            // ctx.deleteMessage();
+            // ctx.deleteMessage().catch(err => {});
             // ctx.session.mesage_filter.forEach(msg => {
             //     ctx.deleteMessage(msg)
             // })
@@ -50,7 +50,7 @@ module.exports.createRequestScene = (bot) => {
             return ctx.wizard.next();
         },
         async (ctx) => {
-            // ctx.deleteMessage();
+            // ctx.deleteMessage().catch(err => {});
             // ctx.session.mesage_filter.forEach(msg => {
             //     ctx.deleteMessage(msg)
             // })
@@ -62,7 +62,7 @@ module.exports.createRequestScene = (bot) => {
             return ctx.wizard.next();
         },
         async (ctx) => {
-            // ctx.deleteMessage();
+            // ctx.deleteMessage().catch(err => {});
             // ctx.session.mesage_filter.forEach(msg => {
             //     ctx.deleteMessage(msg)
             // })
@@ -74,7 +74,7 @@ module.exports.createRequestScene = (bot) => {
             return ctx.wizard.next()
         },
         async (ctx) => {
-            // ctx.deleteMessage();
+            // ctx.deleteMessage().catch(err => {});
             ctx.session.reqCreateProdType = ctx.message.text;
 
             const post = await Post.create({

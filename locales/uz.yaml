@@ -3,6 +3,10 @@ menuPolicy:  Yuklash talablari
 menuRequest: Sorovnoma qoldirish
 menuAbout: Biz haqimizda
 mainMenuBack: Tilni tanlashga qaytish
+menuCountry:  Mamlakatni o'zgartirish
+menuPrice: Narxlarni ko'rsatish
+menuLanguage: Tilni o'zgartirish
+menuCountryChoose: Iltimos mamlakatni tanlang
 menuBack: Ortga
 policyMenuReq: Monopoliyaga qarshi kurashish qo'mitasi talablari
 chanelSample: Post namunasi
@@ -25,4 +29,3 @@ reqStatus: So'rovnomangiz ko'rilish holatida
 regMessage: Iltimos ro'yxatdan o'ting
 mainMenu: Asosiy lavha
 requestCompleteMsg: Sizning so'rovnomangiz qabul qilindi. Yaqin orada mutaxassislarimiz siz bilan bo'glanadi
-menuPrice: Narxlarni ko'rsatish
