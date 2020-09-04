@@ -2,6 +2,7 @@ const Scene = require('telegraf/scenes/base');
 const WizardScene = require('telegraf/scenes/wizard');
 const {Telegraf} = require('telegraf');
 const {Extra} = Telegraf;
+const calendar = require('../helpers/calendar');
 
 const Post = require('../models/Post');
 
@@ -10,7 +11,7 @@ module.exports.requestScene = () => {
     const requestScene = new Scene('request');
 
     requestScene.enter(ctx => {
-        ctx.scene.enter('createRequest')
+        return ctx.scene.enter('createRequest')
     })
 
     return requestScene;
@@ -18,100 +19,213 @@ module.exports.requestScene = () => {
 
 module.exports.createRequestScene = (bot) => {
 
+    const createRequest = new Scene('createRequest')
 
-    const createRequest = new WizardScene('createRequest',
-        async (ctx) => {
-            ctx.deleteMessage()
-            const msg = ctx.reply(ctx.i18n.t('reqCreateComp'), Extra.markup(markup => {
-                return markup.keyboard([`◀️ ${ctx.i18n.t('menuBack')}`]).resize()
-            }));
-
-            // ctx.session.mesage_filter.push((await msg).message_id);
-            return ctx.wizard.next()
-        },
-        async (ctx) => {
-            const msg = ctx.reply(ctx.i18n.t('reqCreateCon'), Extra.markup(markup => {
-                return markup.keyboard([`◀️ ${ctx.i18n.t('menuBack')}`]).resize()
-            }));
-            ctx.session.reqCreateComp = ctx.message.text;
-            // ctx.session.mesage_filter.push((await msg).message_id);
-            return ctx.wizard.next()
-        },
-        async (ctx) => {
-            // ctx.deleteMessage().catch(err => {});
-            // ctx.session.mesage_filter.forEach(msg => {
-            //     ctx.deleteMessage(msg)
-            // })
-            const msg = ctx.reply(ctx.i18n.t('reqCreateComType'), Extra.markup(markup => {
-                return markup.keyboard([`◀️ ${ctx.i18n.t('menuBack')}`]).resize()
-            }));
-            ctx.session.reqCreateCon = ctx.message.text;
-            // ctx.session.mesage_filter.push((await msg).message_id);
-            return ctx.wizard.next();
-        },
-        async (ctx) => {
-            // ctx.deleteMessage().catch(err => {});
-            // ctx.session.mesage_filter.forEach(msg => {
-            //     ctx.deleteMessage(msg)
-            // })
-            const msg = ctx.reply(ctx.i18n.t('reqCreateDate'), Extra.markup(markup => {
-                return markup.keyboard([`◀️ ${ctx.i18n.t('menuBack')}`]).resize()
-            }));
-            ctx.session.reqCreateComType = ctx.message.text;
-            // ctx.session.mesage_filter.push((await msg).message_id);
-            return ctx.wizard.next();
-        },
-        async (ctx) => {
-            // ctx.deleteMessage().catch(err => {});
-            // ctx.session.mesage_filter.forEach(msg => {
-            //     ctx.deleteMessage(msg)
-            // })
-            const msg = ctx.reply(ctx.i18n.t('reqCreateProdType'), Extra.markup(markup => {
-                return markup.keyboard([`◀️ ${ctx.i18n.t('menuBack')}`]).resize()
-            }));
-            ctx.session.reqCreateDate = ctx.message.text;
-            // ctx.session.mesage_filter.push((await msg).message_id);
-            return ctx.wizard.next()
-        },
-        async (ctx) => {
-            // ctx.deleteMessage().catch(err => {});
-            ctx.session.reqCreateProdType = ctx.message.text;
-
-            const post = await Post.create({
-                compName: ctx.session.reqCreateComp,
-                contacts: ctx.session.reqCreateCon,
-                compType: ctx.session.reqCreateComType,
-                pubdate: ctx.session.reqCreateDate,
-                prodType: ctx.session.reqCreateProdType
-            });
-
-            const message = `
-<b>${ctx.i18n.t('compName')}</b>: <i>${ctx.session.reqCreateComp}</i>
-<b>${ctx.i18n.t('compCont')}</b>: <i>${ctx.session.reqCreateCon}</i>
-<b>${ctx.i18n.t('compCompType')}</b>: <i>${ctx.session.reqCreateComType}</i>
-<b>${ctx.i18n.t('compPubDate')}</b>: <i>${ctx.session.reqCreateDate}</i>
-<b>${ctx.i18n.t('compProdType')}</b>: <i>${ctx.session.reqCreateProdType}</i>`
-
-            bot.telegram.sendMessage('-1001343832095', message, {parse_mode: 'HTML'});
-
-            ctx.session.reqCreateComp = '';
-            ctx.session.reqCreateCon = '';
-            ctx.session.reqCreateComType = '';
-            ctx.session.reqCreateDate = '';
-            ctx.session.reqCreateProdType = '';
-
-            ctx.scene.enter('mainMenu', {
-                start: ctx.i18n.t('requestCompleteMsg')
-            })
-        }
-    );
+    createRequest.enter(ctx => {
+        const d = new Date(Date.now());
+        ctx.session.currentMonth = d.getMonth();
+        ctx.session.storeMonth = d.getMonth();
+        ctx.session.endDate = false;
+        const msg = ctx.reply(ctx.i18n.t('reqCompanyName'), Extra.markup(markup => {
+            return markup.keyboard([`◀️ ${ctx.i18n.t('menuBack')}`]).resize()
+        }));
+    })
 
     createRequest.hears(['◀️ Назад', '◀️ Ortga'], ctx => {
-        ctx.scene.enter('mainMenu', {
+        return ctx.scene.enter('mainMenu', {
             start: ctx.i18n.t('mainMenu')
         })
     })
 
 
+    createRequest.on('message', ctx => {
+        ctx.session.reqCompanyName = ctx.message.text;
+        return ctx.scene.enter('createRequestContact')
+    })
+
+
     return createRequest;
+}
+
+module.exports.createRequestContactScene = () => {
+
+    const createRequestContact = new Scene('createRequestContact')
+
+    createRequestContact.enter(ctx => {
+        const msg = ctx.reply(ctx.i18n.t('reqCompanyContacts'), Extra.markup(markup => {
+            return markup.keyboard([`◀️ ${ctx.i18n.t('menuBack')}`]).resize()
+        }));
+    })
+
+    createRequestContact.hears(['◀️ Назад', '◀️ Ortga'], ctx => {
+        return ctx.scene.enter('mainMenu', {
+            start: ctx.i18n.t('mainMenu')
+        })
+    })
+
+    createRequestContact.on('message', ctx => {
+        ctx.session.reqCompanyContacts = ctx.message.text;
+        return ctx.scene.enter('createRequestAudType')
+    })
+
+
+    return createRequestContact;
+}
+
+module.exports.createRequestAudTypeScene = () => {
+    const createRequestAudType = new Scene('createRequestAudType');
+
+
+    createRequestAudType.enter(ctx => {
+        const msg = ctx.reply(ctx.i18n.t('reqCompanyAuditory'), Extra.markup(markup => {
+            return markup.inlineKeyboard([
+                [{text: `${ctx.i18n.t('audTypeMale')}`, callback_data: `${ctx.i18n.t('audTypeMale')}`}],
+                [{text: `${ctx.i18n.t('audTypeFemale')}`, callback_data: `${ctx.i18n.t('audTypeFemale')}`}],
+                [{text: `${ctx.i18n.t('audTypeBoth')}`, callback_data: `${ctx.i18n.t('audTypeBoth')}`}],
+            ]).resize()
+        }));
+    })
+
+
+    createRequestAudType.hears(['◀️ Назад', '◀️ Ortga'], ctx => {
+        return ctx.scene.enter('mainMenu', {
+            start: ctx.i18n.t('mainMenu')
+        })
+    })
+
+    createRequestAudType.on('callback_query', ctx => {
+        ctx.answerCbQuery(ctx.callbackQuery.data);
+        ctx.session.reqCompanyAuditory = ctx.callbackQuery.data
+        return ctx.scene.enter('createRequestAudAge')
+    })
+
+
+    return createRequestAudType;
+}
+
+module.exports.createRequestAudAgeScene = () => {
+
+    const createRequestAudAge = new Scene('createRequestAudAge');
+
+    createRequestAudAge.enter(ctx => {
+        ctx.deleteMessage();
+        const msg = ctx.reply(ctx.i18n.t('reqCompanyAuditoryAge'), Extra.markup(markup => {
+            return markup.inlineKeyboard([
+                [{text: `19-23`, callback_data: '19-23'}],
+                [{text: `24-30`, callback_data: '24-30'}],
+                [{text: `31-40`, callback_data: '31-40'}],
+                [{text: `41-55`, callback_data: '41-55'}],
+            ]).resize()
+        }));
+    })
+
+    createRequestAudAge.hears(['◀️ Назад', '◀️ Ortga'], ctx => {
+        return ctx.scene.enter('mainMenu', {
+            start: ctx.i18n.t('mainMenu')
+        })
+    })
+
+    createRequestAudAge.on('callback_query', ctx => {
+        ctx.answerCbQuery(ctx.update.callback_query.data);
+        ctx.session.reqCompanyAuditoryAge = ctx.callbackQuery.data
+
+        return ctx.scene.enter('createRequestPeriod')
+    })
+
+
+    return createRequestAudAge;
+}
+
+module.exports.createRequestPeriodScene = () => {
+
+    const createRequestPeriodScene = new Scene('createRequestPeriod');
+
+    createRequestPeriodScene.enter(ctx => {
+        ctx.deleteMessage();
+        if (ctx.session.endDate) {
+            const msg = ctx.reply(ctx.i18n.t('reqCompanyEndPub'), Extra.markup(markup => {
+                return markup.inlineKeyboard(calendar(ctx.session.currentMonth, ctx)).resize();
+            }));
+        } else {
+            const msg = ctx.reply(ctx.i18n.t('reqCompanyStartPub'), Extra.markup(markup => {
+                return markup.inlineKeyboard(calendar(ctx.session.currentMonth, ctx)).resize();
+            }));
+        }
+
+
+    })
+
+    createRequestPeriodScene.hears(['◀️ Назад', '◀️ Ortga'], ctx => {
+        return ctx.scene.enter('mainMenu', {
+            start: ctx.i18n.t('mainMenu')
+        })
+    })
+
+
+    createRequestPeriodScene.on('callback_query', ctx => {
+
+        // console.log(ctx.scene.state.endDate);
+
+        if (ctx.update.callback_query.data === 'Previous') {
+            ctx.session.currentMonth = ctx.session.currentMonth - 1;
+            return ctx.scene.enter('createRequestPeriod')
+        } else if (ctx.update.callback_query.data === 'Next') {
+            ctx.session.currentMonth = ctx.session.currentMonth + 1;
+            return ctx.scene.enter('createRequestPeriod')
+        } else {
+            ctx.answerCbQuery();
+
+            if (ctx.update.callback_query.data !== 'year' || ctx.update.callback_query.data !== 'month') {
+                if (ctx.session.endDate) {
+                    // ctx.scene.state.endDate = false;
+                    ctx.session.reqCompanyEndPub = ctx.update.callback_query.data;
+                    return ctx.scene.enter('createRequestEnd')
+                } else {
+                    // ctx.scene.state.endDate = true;
+                    ctx.session.reqCompanyStartPub = ctx.update.callback_query.data;
+                    ctx.session.endDate = true;
+                    return ctx.scene.enter('createRequestPeriod')
+                }
+            }
+
+        }
+    })
+
+    return createRequestPeriodScene;
+}
+
+
+module.exports.createRequestEndScene = (bot) => {
+
+    const createRequestEnd = new Scene('createRequestEnd');
+
+    createRequestEnd.enter(async ctx => {
+    ctx.deleteMessage();
+
+        const post = await Post.create({
+            companyName: ctx.session.reqCompanyName,
+            companyContacts: ctx.session.reqCompanyContacts,
+            companyAuditory: ctx.session.reqCompanyAuditory,
+            companyAuditoryAge: ctx.session.reqCompanyAuditoryAge,
+            companyStartPub: ctx.session.reqCompanyStartPub,
+            companyEndPub:  ctx.session.reqCompanyEndPub,
+        });
+
+        const message = `
+<b>${ctx.i18n.t('compName')}</b>: <i>${ctx.session.reqCompanyName}</i>
+<b>${ctx.i18n.t('compContacts')}</b>: <i>${ctx.session.reqCompanyContacts}</i>
+<b>${ctx.i18n.t('companyAuditory')}</b>: <i>${ctx.session.reqCompanyAuditory}</i>
+<b>${ctx.i18n.t('companyAuditoryAge')}</b>: <i>${ctx.session.reqCompanyAuditoryAge}</i>
+<b>${ctx.i18n.t('compStartPubDate')}</b>: <i>${ctx.session.reqCompanyStartPub}</i>
+<b>${ctx.i18n.t('compEndPubDate')}</b>: <i>${ctx.session.reqCompanyEndPub}</i>
+`
+
+        bot.telegram.sendMessage('-1001343832095', message, {parse_mode: 'HTML'});
+
+        ctx.scene.enter('mainMenu', {
+            start: ctx.i18n.t('requestCompleteMsg')
+        })
+    })
+
+    return createRequestEnd;
 }

@@ -114,7 +114,6 @@ module.exports = (bot) => {
     policyScene.action('Next', async (ctx) => {
         ctx.deleteMessage().catch(err => {
         });
-        ;
         ctx.session.currentCont = ctx.session.currentCont + 1;
 
         let markup;

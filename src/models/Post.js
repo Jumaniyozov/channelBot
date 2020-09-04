@@ -6,20 +6,22 @@ const Post = MySQL.define('post', {
         primaryKey: true,
         autoIncrement: true,
     },
-    pubdate: {
-        type: Sequelize.STRING
-
-    },
-    compName: {
+    companyName: {
         type: Sequelize.STRING,
     },
-    contacts: {
+    companyContacts: {
         type: Sequelize.STRING,
     },
-    compType: {
+    companyAuditory: {
         type: Sequelize.STRING,
     },
-    prodType: {
+    companyAuditoryAge: {
+        type: Sequelize.STRING,
+    },
+    companyStartPub: {
+        type: Sequelize.STRING,
+    },
+    companyEndPub: {
         type: Sequelize.STRING,
     },
 

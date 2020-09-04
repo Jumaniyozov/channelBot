@@ -3,6 +3,7 @@ const {Telegraf} = require('telegraf');
 const {Extra} = Telegraf;
 
 const Country = require('../models/Country');
+const countryChose = require('../helpers/countryChoser');
 
 module.exports = () => {
     const countryScene = new Scene('country');
@@ -13,48 +14,57 @@ module.exports = () => {
         const countries = country.map(country => {
             return country.dataValues;
         })
-        const replyMarkup = countries.map(country => [country.name]);
 
         ctx.session.countries = countries;
         ctx.session.languages = countries.map(country => country.language)
 
         const msg = ctx.reply('Выберите страну', Extra.markup(markup => {
-            return markup.keyboard(replyMarkup).resize();
+            return markup.keyboard([[`🇷🇺 Россия`], [`🇺🇿 O'zbekiston`], [`🇰🇿 Қазақстан`]]).resize();
         }))
         ctx.session.mesage_filter.push((await msg).message_id);
 
     });
 
-    countryScene.on('message', ctx => {
-            if (ctx.session.countries) {
-                const countries = ctx.session.countries.map(country => country.name);
+    // countryScene.on('message', ctx => {
+    //         if (ctx.session.countries) {
+    //             const countries = ctx.session.countries.map(country => country.name);
+    //
+    //             if (countries.includes(ctx.message.text)) {
+    //                 ctx.session.chosenCountry = ctx.session.countries.filter(country => {
+    //                         return country.name === ctx.message.text
+    //                     }
+    //                 );
+    //
 
-                if (countries.includes(ctx.message.text)) {
-                    ctx.session.chosenCountry = ctx.session.countries.filter(country => {
-                            return country.name === ctx.message.text
-                        }
-                    );
+                    // if (ctx.session.countryChosen) {
+                    //     ctx.session.countryChosen = false;
+                    //     ctx.session.country = ctx.session.chosenCountry.id;
+                    //     // ctx.session.countries = ''
+                    //     return ctx.scene.enter('mainMenu', {
+                    //         start: ctx.i18n.t('mainMenu')
+                    //     })
+                    // } else {
+                    //     ctx.session.country = ctx.session.chosenCountry.id;
+                    //     // ctx.session.countries = ''
+                    //     return ctx.scene.enter('language');
+                    // }
+    //             }
+    //         } else {
+    //             // ctx.session.countries = ''
+    //             ctx.scene.enter('country');
+    //         }
+    //     }
+    // )
 
-
-                    if (ctx.session.countryChosen) {
-                        ctx.session.countryChosen = false;
-                        ctx.session.country = ctx.session.chosenCountry.id;
-                        // ctx.session.countries = ''
-                        return ctx.scene.enter('mainMenu', {
-                            start: ctx.i18n.t('mainMenu')
-                        })
-                    } else {
-                        ctx.session.country = ctx.session.chosenCountry.id;
-                        // ctx.session.countries = ''
-                        return ctx.scene.enter('language');
-                    }
-                }
-            } else {
-                // ctx.session.countries = ''
-                ctx.scene.enter('country');
-            }
-        }
-    )
+    countryScene.hears(`🇷🇺 Россия`, ctx => {
+        countryChose(ctx)
+    })
+    countryScene.hears(`🇺🇿 O'zbekiston`, ctx => {
+        countryChose(ctx)
+    })
+    countryScene.hears(`🇰🇿 Қазақстан`, ctx => {
+        countryChose(ctx)
+    })
 
     return countryScene
 }

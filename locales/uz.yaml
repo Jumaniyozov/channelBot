@@ -14,18 +14,23 @@ chanelReq: Talablar
 chanelPolicy: Iltimos yuklash shartlari bilan tanishib chiqing
 chanelLink: Manzil
 antimonoReq: Iltimos qo'mita talablari bilan tanishib chiqing
-reqCreateComp: Iltimos korxona nomini kiriting
-reqCreateCon: Iltimos aloqa ma'lumotlarini kiriting
-reqCreateComType: Iltimos korxona turini kiriting
-reqCreateDate: Iltimos yuklash sanalarini kiriting
-reqCreateProdType: Iltimos maxsulot turini kiriting
-compName:  Korxona nomi
-compCont: Korxona ma'lumotlari
-compCompType:  Korxona turi
-compPubDate:  Yuklash sanalari
-compProdType:  Maxsulot turi
+reqCompanyName: Iltimos korxona nomini kiriting
+reqCompanyContacts: Iltimos aloqa ma'lumotlarini kiriting
+reqCompanyAuditory: Iltimos auditoriya turini tanlang
+reqCompanyAuditoryAge: Iltimos auditoriya yoshini tanlang
+reqCompanyStartPub: Iltimos boshlang'ich yuklash sanasini kiriting
+reqCompanyEndPub: Iltimos yakuniy yuklash sanasini kiriting
+compName: Korxona nomi
+compContacts: Korxona ma'lumotlari
+companyAuditory: Auditoriya turi
+companyAuditoryAge: Auditoriya yoshi
+compStartPubDate: Boshlang'ich yuklash sanasi
+compEndPubDate: Yakuniy yuklash sanasi
 emptyPost:  Hozircha ma'lumotlar yo'q
 reqStatus: So'rovnomangiz ko'rilish holatida
 regMessage: Iltimos ro'yxatdan o'ting
 mainMenu: Asosiy lavha
 requestCompleteMsg: Sizning so'rovnomangiz qabul qilindi. Yaqin orada mutaxassislarimiz siz bilan bo'glanadi
+audTypeMale: Erkak
+audTypeFemale: Ayol
+audTypeBoth: Aralash

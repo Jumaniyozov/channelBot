@@ -36,9 +36,16 @@ const aboutScene = require('./src/scenes/about')(bot);
 const priceScene = require('./src/scenes/price')(bot);
 const requestScene = mainRequestScene.requestScene();
 const createRequestScene = mainRequestScene.createRequestScene(bot);
+const createRequestContact = mainRequestScene.createRequestContactScene();
+const createRequestAudType = mainRequestScene.createRequestAudTypeScene();
+const createRequestAudAge = mainRequestScene.createRequestAudAgeScene();
+const createRequestPeriod = mainRequestScene.createRequestPeriodScene();
+const createRequestEnd = mainRequestScene.createRequestEndScene(bot);
 
 // Stage
-const stage = new Stage([countryScene, languageScene, registrationScene, mainScene, aboutScene, requestScene, priceScene, createRequestScene, policyScene]);
+const stage = new Stage([countryScene, languageScene, registrationScene, mainScene, aboutScene,
+    requestScene, priceScene, createRequestScene, policyScene, createRequestContact, createRequestAudType, createRequestAudAge,
+    createRequestPeriod, createRequestEnd]);
 
 // middlewares
 bot.use(session.middleware())

@@ -1,8 +1,8 @@
 greeting: <b>Привет ${uppercase(from.first_name)}!</b>
-menuPolicy:  Условия размещения
+menuPolicy: Условия размещения
 menuRequest: Оставить заявку
 menuAbout: О нас
-menuCountry:  Изменить страну
+menuCountry: Изменить страну
 menuLanguage: Изменить язык
 menuPrice: Показать цены
 menuCountryChoose: Пожалуйста выберите страну
@@ -14,18 +14,23 @@ chanelReq: Условия
 chanelPolicy: Пожалуйста ознакомтесь с условиями размещения
 chanelLink: Ссылка
 antimonoReq: Пожалуйста ознакомтесь с требованиями коммитета
-reqCreateComp: Пожалуйста введите название компании
-reqCreateCon: Пожалуйста введите контактные данные
-reqCreateComType: Пожалуйста введите тип компании
-reqCreateDate: Пожалуйста введите сроки размещения
-reqCreateProdType: Пожалуйста введите тип продукта
-compName:  Имя компании
-compCont:  Данные компании
-compCompType:  Тип компании
-compPubDate:  Сроки размещения
-compProdType:  Тип продукта
-emptyPost:  Пока что постов нет
+reqCompanyName: Пожалуйста введите название компании
+reqCompanyContacts: Пожалуйста введите контактные данные
+reqCompanyAuditory: Пожалуйста выберите тип аудитории
+reqCompanyAuditoryAge: Пожалуйста выберите возраст аудитории
+reqCompanyStartPub: Пожалуйста выберите начальный период размещения
+reqCompanyEndPub: Пожалуйста выберите конечный период размещения
+compName: Имя компании
+compContacts: Данные компании
+companyAuditory: Тип аудитории
+companyAuditoryAge: Возраст адитории
+compStartPubDate: Начальный период размещения
+compEndPubDate: Конечный период размещения
+emptyPost: Пока что постов нет
 reqStatus: Ваша заявка принята на усмотрение
 regMessage: Пожалуйста пройдите регистрацию
 mainMenu: Главное меню
-requestCompleteMsg:  Ваша заявка успешно отправалена. В ближайшее время с вами свяжутся наши специалисты
+requestCompleteMsg: Ваша заявка успешно отправалена. В ближайшее время с вами свяжутся наши специалисты
+audTypeMale: Мужской
+audTypeFemale: Женский
+audTypeBoth: Смешанный
