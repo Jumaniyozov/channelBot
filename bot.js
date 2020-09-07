@@ -42,14 +42,35 @@ const createRequestAudAge = mainRequestScene.createRequestAudAgeScene();
 const createRequestPeriod = mainRequestScene.createRequestPeriodScene();
 const createRequestEnd = mainRequestScene.createRequestEndScene(bot);
 
-// Stage
-const stage = new Stage([countryScene, languageScene, registrationScene, mainScene, aboutScene,
+const stgs = [countryScene, languageScene, registrationScene, mainScene, aboutScene,
     requestScene, priceScene, createRequestScene, policyScene, createRequestContact, createRequestAudType, createRequestAudAge,
-    createRequestPeriod, createRequestEnd]);
+    createRequestPeriod, createRequestEnd];
+
+// Stage
+const stage = new Stage();
+let queue = new Map()
+stage.use((ctx, next) => {
+    if (ctx.message && ctx.message.photo) return next()
+    let user = queue.get(ctx.from.id)
+    if (user) return
+    queue.set(ctx.from.id, true)
+    return next().then(() => {
+        queue.delete(ctx.from.id)
+    }).catch(e => {
+        console.error(e)
+        queue.delete(ctx.from.id)
+    })
+})
 
 // middlewares
 bot.use(session.middleware())
 bot.use(i18n.middleware())
+
+
+stgs.map(stg => {
+    stage.register(stg);
+})
+
 bot.use(stage.middleware());
 
 // bot.use(ctx => {

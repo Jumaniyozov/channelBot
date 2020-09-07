@@ -35,6 +35,7 @@ module.exports = (bot) => {
     })
 
     aboutScene.action('Back', ctx => {
+        ctx.answerCbQuery();
         ctx.scene.enter('mainMenu', {
             start: ctx.i18n.t('mainMenu')
         })

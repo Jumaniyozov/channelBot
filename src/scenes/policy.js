@@ -37,12 +37,14 @@ module.exports = (bot) => {
     policyScene.action('back', ctx => {
         ctx.deleteMessage().catch(err => {
         });
+        ctx.answerCbQuery();
         ctx.scene.enter('mainMenu', {
             start: ctx.i18n.t('mainMenu')
         })
     })
 
     policyScene.action('backChannelMenu', ctx => {
+        ctx.answerCbQuery();
         ctx.deleteMessage().catch(err => {
         });
         ctx.scene.enter('policy')
@@ -50,6 +52,7 @@ module.exports = (bot) => {
 
 
     policyScene.action('Previous', async (ctx) => {
+        ctx.answerCbQuery();
         ctx.session.currentCont = ctx.session.currentCont - 1;
 
         let markup;
@@ -112,6 +115,7 @@ module.exports = (bot) => {
 
 
     policyScene.action('Next', async (ctx) => {
+        ctx.answerCbQuery();
         ctx.deleteMessage().catch(err => {
         });
         ctx.session.currentCont = ctx.session.currentCont + 1;
@@ -174,6 +178,7 @@ module.exports = (bot) => {
     })
 
     policyScene.action('policies', ctx => {
+        ctx.answerCbQuery();
         ctx.deleteMessage().catch(err => {
         });
         const message = `
@@ -190,6 +195,7 @@ module.exports = (bot) => {
 
 
     policyScene.on("callback_query", async ctx => {
+        ctx.answerCbQuery();
         let [type, id, channelName] = ctx.callbackQuery.data.split(":")
         if (type === "c") {
             let channel = await Channel.findOne({

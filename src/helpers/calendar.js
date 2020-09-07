@@ -2,6 +2,8 @@ module.exports = (month, ctx) => {
     const now = new Date(Date.now());
     const d = new Date(now.getFullYear(), month + 1, 0);
 
+
+
     const simpleArr = (digit) => {
         if (digit === 28) {
             return [
@@ -44,6 +46,7 @@ module.exports = (month, ctx) => {
             return {text: d, callback_data: `${d}/${ctx.session.currentMonth}/${currentYear}`}
         })
     })
+
 
     const monthName = d.toLocaleString('default', {month: 'long'});
 

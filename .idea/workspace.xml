@@ -23,14 +23,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0076e3f-9bab-4e40-82bf-c53cfac3ab5d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9f9818f3-5301-443d-8be1-66bf0be23ada.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/9f9818f3-5301-443d-8be1-66bf0be23ada.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot.js" beforeDir="false" afterPath="$PROJECT_DIR$/bot.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/locales/ru.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/locales/ru.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/locales/uz.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/locales/uz.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Post.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Post.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenes/country.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/country.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/calendar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/calendar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes/about.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/about.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scenes/policy.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/policy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenes/request.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/request.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +103,13 @@
       <workItem from="1598967051961" duration="8173000" />
       <workItem from="1599026884694" duration="9320000" />
       <workItem from="1599122040123" duration="18305000" />
-      <workItem from="1599201890539" duration="7606000" />
+      <workItem from="1599201890539" duration="13617000" />
+      <workItem from="1599231617445" duration="2297000" />
+      <workItem from="1599233952085" duration="274000" />
+      <workItem from="1599288361680" duration="1194000" />
+      <workItem from="1599308589512" duration="6007000" />
+      <workItem from="1599331718299" duration="595000" />
+      <workItem from="1599465419430" duration="633000" />
     </task>
     <servers />
   </component>
@@ -137,10 +145,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="376" y="22" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1599126862447" />
-    <state x="425" y="187" width="672" height="677" key="run.anything.popup" timestamp="1599206110802">
+    <state x="425" y="187" width="672" height="677" key="run.anything.popup" timestamp="1599318995078">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" width="672" height="677" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1599206110802" />
+    <state x="425" y="187" width="672" height="677" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1599318995078" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1599203937419">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
