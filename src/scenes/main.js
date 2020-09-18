@@ -49,32 +49,8 @@ module.exports = (bot) => {
 
         if (ctx.message.document.mime_type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             if (ctx.session.user_status === 3) {
-                async function downloadImage() {
-                    const fileUrl = `https://api.telegram.org/bot${process.env.TGTOKEN}/getFile?file_id=${ctx.message.document.file_id}`
-                    const res = await axios.get(fileUrl);
 
-                    // console.log(res.data.result.file_path);
-
-                    const url = `https://api.telegram.org/file/bot${process.env.TGTOKEN}/${res.data.result.file_path}`
-
-                    const pathe = path.resolve(__dirname, '../documents', 'цены.xlsx')
-                    const writer = fs.createWriteStream(pathe)
-
-                    const response = await axios({
-                        url,
-                        method: 'GET',
-                        responseType: 'stream'
-                    })
-
-                    response.data.pipe(writer)
-
-                    return new Promise((resolve, reject) => {
-                        writer.on('finish', resolve)
-                        writer.on('error', reject)
-                    })
-                }
-
-                downloadImage()
+                uploadPrice(ctx);
             }
     })
 
@@ -118,4 +94,29 @@ module.exports = (bot) => {
     })
 
     return mainScene;
+}
+
+async function uploadPrice(ctx) {
+    const fileUrl = `https://api.telegram.org/bot${process.env.TGTOKEN}/getFile?file_id=${ctx.message.document.file_id}`
+    const res = await axios.get(fileUrl);
+
+    // console.log(res.data.result.file_path);
+
+    const url = `https://api.telegram.org/file/bot${process.env.TGTOKEN}/${res.data.result.file_path}`
+
+    const pathe = path.resolve(__dirname, '../documents', 'цены.xlsx')
+    const writer = fs.createWriteStream(pathe)
+
+    const response = await axios({
+        url,
+        method: 'GET',
+        responseType: 'stream'
+    })
+
+    response.data.pipe(writer)
+
+    return new Promise((resolve, reject) => {
+        writer.on('finish', resolve)
+        writer.on('error', reject)
+    })
 }
